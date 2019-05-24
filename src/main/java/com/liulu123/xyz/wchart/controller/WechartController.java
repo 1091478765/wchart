@@ -1,6 +1,9 @@
 package com.liulu123.xyz.wchart.controller;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.liulu123.xyz.wchart.dto.WxAuth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 public class WechartController {
 
     private static Logger logger = LoggerFactory.getLogger(WechartController.class);
+
 
     @Value("${wechart.appID}")
     private String appID;
@@ -53,6 +57,23 @@ public class WechartController {
         logger.info("请求url为{}",urlBuff.toString());
         String forObject = restTemplate.getForObject(urlBuff.toString(), String.class);
         logger.info("返回结果为{}",forObject);
+        WxAuth wxAuth = JSONObject.parseObject(forObject, WxAuth.class);
+        logger.info("微信openid为：{}", wxAuth.getOpenid());
+
+        StringBuffer userInfoUrl = new StringBuffer();
+        userInfoUrl
+                .append("https://api.weixin.qq.com/sns/userinfo?access_token=")
+                .append(wxAuth.getAccess_token())
+                .append("&")
+                .append("openid=")
+                .append(wxAuth.getOpenid())
+                .append("&lang=zh_CN");
+        logger.info("获取用户信息url为：{}", userInfoUrl);
+        String userInfoStr = restTemplate.getForObject(urlBuff.toString(), String.class);
+        logger.info("获取用户信息为：{}",userInfoStr);
+
+
+
         //https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
     }
 }
