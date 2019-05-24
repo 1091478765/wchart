@@ -70,13 +70,24 @@ public class WechartController {
         String authResult = restTemplate.getForObject(authUrl.toString(), String.class);
         logger.info("验证结果为：{}", authResult);
 
+        //刷新access_token
+        //https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=APPID&grant_type=refresh_token&refresh_token=REFRESH_TOKEN
+        StringBuffer refreshUrl = new StringBuffer("https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=");
+        refreshUrl.append(appID)
+                .append("&grant_type=refresh_token&refresh_token=")
+                .append(wxAuth.getRefresh_token());
+        logger.info("获取刷新token url为：{}", refreshUrl.toString());
+        String refreshResultStr = restTemplate.getForObject(refreshUrl.toString(), String.class);
+        WxAuth refreshResult = JSONObject.parseObject(refreshResultStr, WxAuth.class);
+        logger.info("获取用户信息为：{}",refreshResultStr);
+
         StringBuffer userInfoUrl = new StringBuffer();
         userInfoUrl
                 .append("https://api.weixin.qq.com/sns/userinfo?access_token=")
-                .append(wxAuth.getAccess_token())
+                .append(refreshResult.getAccess_token())
                 .append("&")
                 .append("openid=")
-                .append(wxAuth.getOpenid())
+                .append(refreshResult.getOpenid())
                 .append("&lang=zh_CN");
         logger.info("获取用户信息url为：{}", userInfoUrl);
         String userInfoStr = restTemplate.getForObject(urlBuff.toString(), String.class);
