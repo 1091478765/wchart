@@ -60,6 +60,16 @@ public class WechartController {
         WxAuth wxAuth = JSONObject.parseObject(forObject, WxAuth.class);
         logger.info("微信openid为：{}", wxAuth.getOpenid());
 
+        //https://api.weixin.qq.com/sns/auth?access_token=ACCESS_TOKEN&openid=OPENID
+        StringBuffer authUrl = new StringBuffer("https://api.weixin.qq.com/sns/auth?access_token=");
+        authUrl
+                .append(wxAuth.getAccess_token())
+                .append("&")
+                .append("openid=")
+                .append(wxAuth.getOpenid());
+        String authResult = restTemplate.getForObject(authUrl.toString(), String.class);
+        logger.info("验证结果为：{}", authResult);
+
         StringBuffer userInfoUrl = new StringBuffer();
         userInfoUrl
                 .append("https://api.weixin.qq.com/sns/userinfo?access_token=")
