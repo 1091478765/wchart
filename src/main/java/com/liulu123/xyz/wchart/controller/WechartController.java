@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLEncoder;
 
 @RestController
 @RequestMapping("/wx/")
@@ -96,5 +97,11 @@ public class WechartController {
 
 
         //https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
+    }
+
+    public static void main(String[] args) {
+        System.out.println(URLEncoder.encode("http://www.liulu123.xyz/wx/auth"));
+        //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx26db9832743573c3&redirect_uri=http%3A%2F%2Fwww.liulu123.xyz%2Fwx%2Fauth&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
+
     }
 }
