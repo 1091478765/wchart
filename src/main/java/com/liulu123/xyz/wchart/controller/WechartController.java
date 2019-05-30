@@ -22,10 +22,10 @@ public class WechartController {
     private static Logger logger = LoggerFactory.getLogger(WechartController.class);
 
 
-    @Value("${wechart.appID}")
+    @Value("${wechat.appID}")
     private String appID;
 
-    @Value("${wechart.appsecret}")
+    @Value("${wechat.appsecret}")
     private String appsecret;
 
     @RequestMapping("verifyWxToken")

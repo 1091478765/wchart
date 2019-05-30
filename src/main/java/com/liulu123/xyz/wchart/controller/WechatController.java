@@ -2,6 +2,7 @@ package com.liulu123.xyz.wchart.controller;
 
 
 import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
@@ -38,5 +39,12 @@ public class WechatController {
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
         WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
         logger.info("获取到用户信息为:{}",wxMpUser.toString());
+    }
+
+    @RequestMapping("getJsapiTicket")
+    public void getJsapiTicket(@RequestParam(value = "url",required = false) String url) throws Exception{
+        logger.info("获取到用户url为:{}",url);
+        WxJsapiSignature jsapiSignature = wxMpService.createJsapiSignature(url);
+        logger.info("获取到用户信息为:{}",jsapiSignature.toString());
     }
 }
