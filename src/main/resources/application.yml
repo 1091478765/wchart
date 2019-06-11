@@ -4,3 +4,11 @@ server:
 wechat:
   appID: wx26db9832743573c3
   appsecret: c0e1cd698039b0a86f75444cee330e2d
+
+wx:
+  mp:
+    configs:
+      - appId: wx26db9832743573c3
+        secret: c0e1cd698039b0a86f75444cee330e2d
+        token: liulu
+        aesKey: 111 （接口配置里的EncodingAESKey值）
